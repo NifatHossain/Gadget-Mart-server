@@ -102,5 +102,21 @@ app.get('/allusers/:email', function (req, res) {
     // })
 });
 
+//Api to find admin by email
+app.get('/admins/:email', function (req, res) {
+    const email= req.params.email;
+    
+    var sql= `select * from admins where email='${email}'`;
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+        
+    // })
+});
+
 
 app.listen(3000);
