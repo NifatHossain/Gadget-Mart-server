@@ -21,6 +21,7 @@ connection.connect(
     }
 );
 
+//create functions
 app.post('/adduser', function (req, res) {
     console.log("here-----");
 
@@ -49,6 +50,39 @@ app.post('/adduser', function (req, res) {
             }
         }
     );
+})
+app.post('/addnewphone', function (req, res) {
+    console.log("here-----");
+
+    const phoneData = {
+        productModel:req.body.productModel,
+        productBrand:req.body.productBrand,
+        productImage:req.body.productImage,
+        productPrice:req.body.productPrice,
+        network:req.body.network,
+        sim:req.body.sim,
+        displayType:req.body.displayType,
+        displaySize:req.body.displaySize,
+        displayResolution:req.body.displayResolution,
+        os:req.body.os,
+        chipset:req.body.chipset,
+        memory:req.body.memory,
+        rearCamera:req.body.rearCamera,
+        selfieCamera:req.body.selfieCamera,
+        battery:req.body.battery,
+        sensors:req.body.sensors,
+        adminEmail:req.body.adminEmail
+    };
+
+    console.log("phonedata:", phoneData);
+    const sql= `INSERT INTO phones (productModel,productBrand,productImage,productPrice,network,sim,displayType,displaySize,displayResolution,os,chipset,memory,rearCamera,selfieCamera,battery,sensors,adminEmail) VALUES ('${phoneData.productModel}','${phoneData.productBrand}','${phoneData.productImage}','${phoneData.productPrice}','${phoneData.network}','${phoneData.sim}','${phoneData.displayType}','${phoneData.displaySize}','${phoneData.displayResolution}','${phoneData.os}','${phoneData.chipset}','${phoneData.memory}','${phoneData.rearCamera}','${phoneData.selfieCamera}','${phoneData.battery}','${phoneData.sensors}','${phoneData.adminEmail}')`
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        res.send(result)
+    })
+    
 })
 
 app.post('/addcurrentuser', function (req, res) {
@@ -117,6 +151,30 @@ app.get('/admins/:email', function (req, res) {
         
     // })
 });
-
+//ApI to get all phones from db
+app.get('/allphones', function (req, res) {
+    
+    var sql= 'select * from phones';
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+    
+})
+//API to get a phone by its id
+app.get('/allphones/:id',(req,res)=>{
+    const reqId= req.params.id;
+    const sql=`select * from phones where id=${reqId}`
+    connection.query(sql,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        res.send(result)
+    }) 
+})
 
 app.listen(3000);
+
