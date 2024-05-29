@@ -151,7 +151,7 @@ app.get('/admins/:email', function (req, res) {
         
     // })
 });
-
+//ApI to get all phones from db
 app.get('/allphones', function (req, res) {
     
     var sql= 'select * from phones';
@@ -164,7 +164,17 @@ app.get('/allphones', function (req, res) {
     })
     
 })
-
+//API to get a phone by its id
+app.get('/allphones/:id',(req,res)=>{
+    const reqId= req.params.id;
+    const sql=`select * from phones where id=${reqId}`
+    connection.query(sql,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        res.send(result)
+    }) 
+})
 
 app.listen(3000);
 
