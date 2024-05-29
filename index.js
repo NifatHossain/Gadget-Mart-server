@@ -152,6 +152,19 @@ app.get('/admins/:email', function (req, res) {
     // })
 });
 
+app.get('/allphones', function (req, res) {
+    
+    var sql= 'select * from phones';
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+    
+})
+
 
 app.listen(3000);
 
