@@ -176,5 +176,23 @@ app.get('/allphones/:id',(req,res)=>{
     }) 
 })
 
+//seving orders in mysql
+app.post('/allorders',(req,res)=>{
+    const productId= req.body.productId;
+    const productBrand= req.body.productBrand;
+    const productModel= req.body.productModel;
+    const productPrice= req.body.productPrice;
+    const userEmail= req.body.userEmail;
+    const sql= `insert into orders (productId, productBrand, productModel, productPrice, customerEmail) values('${productId}','${productBrand}','${productModel}','${productPrice}','${userEmail}')`
+    connection.query(sql,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.send(result);
+        }
+    })
+})
+
 app.listen(3000);
 
