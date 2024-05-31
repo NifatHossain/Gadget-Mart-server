@@ -360,6 +360,19 @@ app.get('/allwatches', function (req, res) {
     })
     
 })
+//ApI to get all laptops from db
+app.get('/alllaptops', function (req, res) {
+    
+    var sql= 'select * from laptops';
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+    
+})
 
 //seving orders in mysql
 app.post('/allorders',(req,res)=>{
