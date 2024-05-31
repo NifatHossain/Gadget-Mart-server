@@ -176,6 +176,20 @@ app.get('/allphones/:id',(req,res)=>{
     }) 
 })
 
+//ApI to get all watches from db
+app.get('/allwatches', function (req, res) {
+    
+    var sql= 'select * from watches';
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+    
+})
+
 //seving orders in mysql
 app.post('/allorders',(req,res)=>{
     const productId= req.body.productId;
@@ -191,6 +205,19 @@ app.post('/allorders',(req,res)=>{
         else{
             res.send(result);
         }
+    })
+})
+
+//API to delete Product
+app.delete('/deleteproduct/:id',(req,res)=>{
+    const id=req.params.id;
+    const sql= `delete from phones where id='${id}'`
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
     })
 })
 
