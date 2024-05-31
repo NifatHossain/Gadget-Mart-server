@@ -253,10 +253,157 @@ app.post('/addnewwatch', function (req, res) {
         }
         res.send(result)
     })
+    
+})
+
+app.post('/addcurrentuser', function (req, res) {
+    console.log("here-----");
+
+    const user = {
+        email: req.body.email
+    };
+
+    console.log("user", user);
+
+    var sql= `delete from currentuser`;
+        connection.query(sql,(error,result)=>{
+            if(error){
+                console.log(error)
+            }
+            // console.log(result)
+            res.send(result)
+        })
+
+    connection.query(`INSERT INTO currentuser(email) VALUES ('${user.email}');`,
+        function (err, result) {
+            if (err) {
+                console.log("err", err);
+                res.json({
+                    error: err.sqlMessage,
+                })
+            } else {
+                console.log("result", result);
+                // res.json({
+                //     result: result,
+
+                // })
+            }
+        }
+    );
+})
+
+app.get('/allusers/:email', function (req, res) {
+    const email= req.params.email;
+    
+    var sql= `select * from users where email='${email}'`;
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
         
     // })
 });
 
+//Api to find admin by email
+app.get('/admins/:email', function (req, res) {
+    const email= req.params.email;
+    
+    var sql= `select * from admins where email='${email}'`;
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+        
+    // })
+});
+//ApI to get all phones from db
+app.get('/allphones', function (req, res) {
+    
+    var sql= 'select * from phones';
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+    
+})
+//API to get a phone by its id
+app.get('/allphones/:id',(req,res)=>{
+    const reqId= req.params.id;
+    const sql=`select * from phones where id=${reqId}`
+    connection.query(sql,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        res.send(result)
+    }) 
+})
+
+//ApI to get all watches from db
+app.get('/allwatches', function (req, res) {
+    
+    var sql= 'select * from watches';
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+    
+})
+//ApI to get all laptops from db
+app.get('/alllaptops', function (req, res) {
+    
+    var sql= 'select * from laptops';
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+    
+})
+
+//seving orders in mysql
+app.post('/allorders',(req,res)=>{
+    const productId= req.body.productId;
+    const productBrand= req.body.productBrand;
+    const productModel= req.body.productModel;
+    const productPrice= req.body.productPrice;
+    const userEmail= req.body.userEmail;
+    const sql= `insert into orders (productId, productBrand, productModel, productPrice, customerEmail) values('${productId}','${productBrand}','${productModel}','${productPrice}','${userEmail}')`
+    connection.query(sql,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.send(result);
+        }
+    })
+})
+
+//API to delete Product
+app.delete('/deleteproduct/:id',(req,res)=>{
+    const id=req.params.id;
+    const sql= `delete from phones where id='${id}'`
+    connection.query(sql,(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        // console.log(res)
+        res.send(result)
+    })
+})
 
 
 app.listen(3000);
