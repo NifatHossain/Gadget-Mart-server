@@ -49,6 +49,8 @@ app.post("/adduser", function (req, res) {
     }
   );
 });
+
+
 app.post("/addnewphone", function (req, res) {
   console.log("here-----");
 
@@ -81,6 +83,41 @@ app.post("/addnewphone", function (req, res) {
     res.send(result);
   });
 });
+
+//API to add new laptop
+app.post("/addnewlaptop", function (req, res) {
+  console.log("here-----");
+
+  const laptopData = {
+    productModel: req.body.productModel,
+    productBrand: req.body.productBrand,
+    productImage: req.body.productImage,
+    productPrice: req.body.productPrice,
+    software: req.body.software,
+    graphics: req.body.graphics,
+    displayType: req.body.displayType,
+    displaySize: req.body.displaySize,
+    displayResolution: req.body.displayResolution,
+    os: req.body.os,
+    hdmi: req.body.hdmi,
+    memory: req.body.memory,
+    fingerprint: req.body.fingerprint,
+    selfieCamera: req.body.selfieCamera,
+    warranty: req.body.warranty,
+    otherFeatures: req.body.otherFeatures,
+    adminEmail: req.body.adminEmail,
+  };
+
+  console.log("laptopdata:", laptopData);
+  const sql = `INSERT INTO laptops (productModel,productBrand,productImage,productPrice,software,graphics,displayType,displaySize,displayResolution,os,hdmi,memory,fingerprint,selfieCamera,warranty,otherFeatures,adminEmail) VALUES ('${laptopData.productModel}','${laptopData.productBrand}','${laptopData.productImage}','${laptopData.productPrice}','${laptopData.software}','${laptopData.graphics}','${laptopData.displayType}','${laptopData.displaySize}','${laptopData.displayResolution}','${laptopData.os}','${laptopData.hdmi}','${laptopData.memory}','${laptopData.fingerprint}','${laptopData.selfieCamera}','${laptopData.battery}','${laptopData.otherFeatures}','${laptopData.adminEmail}')`;
+  connection.query(sql, (error, result) => {
+    if (error) {
+      console.log(error);
+    }
+    res.send(result);
+  });
+});
+
 
 app.post("/addcurrentuser", function (req, res) {
   console.log("here-----");
@@ -355,4 +392,7 @@ app.delete('/deleteproduct/:id',(req,res)=>{
     })
 })
 
+
 app.listen(3000);
+
+
